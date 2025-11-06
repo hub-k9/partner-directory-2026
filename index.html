@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>YAMATO spirit フェス2025</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Raleway', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+    header {
+      background-color: RED;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: YELLOW;
+    }
+    nav {
+      margin-top: 10px;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #00418e;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+    }
+    .logoImg{
+      display: block;
+      margin: 0 auto;
+      max-width: 200px;
+      height: auto;
+    }
+    .smalllogoImg{
+      display: block;
+      margin: 0 auto;
+      max-width: 25px;
+      height: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    a.smalllogoLink {
+      display: inline-block;
+      width: auto;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="IMG_7105.PNG" alt="YAMATO spirit ロゴ" class="logoImg">
+  <h1>YAMATO spirit フェス2025</h1>
+</header>
+
+<!-- ここにコンテンツを挿入 -->
+  <h1>ポスター掲載店一覧</h1>
+  <table id="csv-table"></table>
+
+  <script>
+    fetch('companies.csv')
+      .then(response => response.text())
+      .then(text => {
+        const rows = text.trim().split('\r\n').map(row => row.split(','));
+        const table = document.getElementById('csv-table');
+
+        rows.forEach((cols, i) => {
+          const tr = document.createElement('tr');
+          cols.forEach(col => {
+            const cell = document.createElement(i === 0 ? 'th' : 'td');
+            cell.textContent = col;
+            tr.appendChild(cell);
+          });
+          table.appendChild(tr);
+        });
+      });
+  </script>
+
+<footer>
+  <a href="https://www.instagram.com/yamato_spirit_fes/" class="smalllogoLink" target="_blank" rel="noopener">
+    <img src="Instagram_Glyph_Black.png" alt="Instagramロゴ" class="smalllogoImg">
+  </a>
+  <p>©2025 SKcompany All rights reserved.</p>
+</footer>
+
+</body>
+</html>
