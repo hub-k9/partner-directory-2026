@@ -53,17 +53,21 @@
       max-width: 25px;
       height: auto;
     }
-    table {
+    #csv-table {
       border-collapse: collapse;
       width: 100%;
     }
-    th, td {
-      border: 1px solid #ccc;
+    #csv-table thead th {
+      position: sticky;
+      top: 0;
+      background-color: #f9f9f9;
+      z-index: 1;
       padding: 8px;
-      text-align: left;
+      border-bottom: 1px solid #ccc;
     }
-    th {
-      background-color: #f2f2f2;
+    #csv-table td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
     }
     a.smalllogoLink {
       display: inline-block;
@@ -72,7 +76,7 @@
       margin: 0;
     }
     .table-scroll-container {
-      max-height: 380px; 
+      max-height: 350px; 
       overflow-y: auto; 
       border: 1px solid #ccc;
     }
@@ -80,7 +84,7 @@
     /* スマホ用（画面幅768px以下） */
     @media (max-width: 768px) {
     .table-scroll-container {
-      max-height: 500px;
+      max-height: 1020px;
     }
     }
 
@@ -95,29 +99,38 @@
 </header>
 
 <!-- ここにコンテンツを挿入 -->
-  <h2>ポスター掲載店一覧</h2>
+  <h2>ポスター掲載店一覧(2025/11/XX時点）</h2>
   <div class="table-scroll-container">
-  <table id="csv-table"></table>
+  <table id="csv-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
   </div>
   <br>
   
   <script>
-    fetch('companies.csv')
-      .then(response => response.text())
-      .then(text => {
-        const rows = text.trim().split('\r\n').map(row => row.split(','));
-        const table = document.getElementById('csv-table');
+	fetch('companies.csv')
+	  .then(response => response.text())
+	  .then(text => {
+	    const rows = text.trim().split('\r\n').map(row => row.split(','));
+	    const thead = document.querySelector('#csv-table thead');
+	    const tbody = document.querySelector('#csv-table tbody');
 
-        rows.forEach((cols, i) => {
-          const tr = document.createElement('tr');
-          cols.forEach(col => {
-            const cell = document.createElement(i === 0 ? 'th' : 'td');
-            cell.textContent = col;
-            tr.appendChild(cell);
-          });
-          table.appendChild(tr);
-        });
-      });
+	    rows.forEach((cols, i) => {
+	      const tr = document.createElement('tr');
+	      cols.forEach(col => {
+	        const cell = document.createElement(i === 0 ? 'th' : 'td');
+	        cell.textContent = col;
+	        tr.appendChild(cell);
+	      });
+
+	      if (i === 0) {
+	        thead.appendChild(tr); // 1行目はヘッダー
+	      } else {
+	        tbody.appendChild(tr); // 2行目以降は本文
+	      }
+	    });
+	  });
   </script>
   
 <footer>
